@@ -15,7 +15,6 @@ const verifyLogin=(req,res,next)=>{
 /* GET home page. */
 router.get('/', async function (req, res, next) {
   let user = req.session.user
-  console.log(user);
   let cartCount=null;
   if(req.session.user){
   cartCount=await userHelpers.getCartCount(req.session.user._id)
@@ -81,7 +80,35 @@ router.post('/change-product-quantity',(req,res,next)=>{
     res.json(response)
   })
 })
-
-
+router.get('/place-order',verifyLogin,async(req,res)=>{
+  let total=await userHelpers.getTotalAmount(req.session.user._id)
+  res.render('user/place-order',{total,user:req.session.user})
+})
+router.post('/place-order',async(req,res)=>{
+  let products=await userHelpers.getCartProductList(req,body.userId)
+  let totalPrice=await userHelpers.getTotalAmount(req.body.userId)
+  userHelpers.placeOrder(req.body,products,totalPrice).then((orderId)=>{
+    if(req.body['payment-method']=='COD'){
+      res.json({status:true})
+    }else{
+      userHelpers.generateRazorPay(orderId,totalPrice).then((response)=>{
+        res.json(response)
+      })
+    }
+    
+  })
+  console.log(req.body);
+})
+router.get('/order-success',(req,res)=>{
+  res.render('user/order-success',{user:req.session.user})
+})
+router.get('/orders',async(req,res)=>{
+  let orders=await userHelpers.getUserOrders(req.session.user._id)
+  res.render('user/orders',{user:req.session.user,orders})
+})
+router.get('/view-order-product/:id',async(req,res)=>{
+  let products=await userHelpers.getOrderProducts(req.params.id)
+  res.render('user/view-order-products',{user:req.session.user,products})
+})
 
 module.exports = router;

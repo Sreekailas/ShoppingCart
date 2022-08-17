@@ -31,29 +31,41 @@
                 </tr>
                 {{/each}}
             </tbody>
+            <hr>
+            <div class="float-right pr-5">
+                <h5 class="float-left mr-5">TOTAL: Rs.1000</h5><br>
+                <a href="place-order" class="btn btn-success mt-3" style="width: 100%;"><b>place Order</b></a>
+            </div>
+
         </table>
     </div>
 </section>
 <script>
-    function changeQuantity(cartId,proId,count){
+    function changeQuantity(cartId,proId,userId,count){
         let quantity=parseInt(document.getElementById(proId).innerHTML)
         count=parseInt(count)
+      
 
         $.ajax({
             url:'/change-product-quantity',
             data:{
+                user:userId,
                 cart:cartId,
                 product:proId,
                 count:count,
                 quantity:quantity
             },
             method:'post',
+            
             success:(response)=>{
             if(response.removeProduct){
                 alert("product Removed from cart")
                 location.reload()
             }else{
+                console.log(response)
                 document.getElementById(proId).innerHTML=quantity+count
+                document.getElementById('total').innerHTML = response.total
+
             }
           }
         })

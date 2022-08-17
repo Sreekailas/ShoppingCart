@@ -19,11 +19,7 @@ module.exports = {
     },
     deleteProduct: (prodId) => {
         return new Promise((resolve, reject) => {
-            console.log(prodId);
-            console.log(objectId(prodId));
-
             db.get().collection(collection.PRODUCT_COLLECTION).deleteOne({ _id: objectId(prodId) }).then((response) => {
-                console.log(response);
                 resolve(response)
             })
         })

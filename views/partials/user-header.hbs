@@ -11,15 +11,25 @@
         <li class="nav-item active">
           <a class="nav-link" href="/">Products<span class="sr-only">(current)</span></a>
         </li>
+
         <li class="nav-item">
-          <a class="nav-link" href="/cart">Cart<span class="badge badge-success" id="cart-count">{{cartCount}}</span></a>
+          <a class="nav-link" href="/cart">Cart<span class="badge badge-success"
+              id="cart-count">{{cartCount}}</span></a>
         </li>
         {{#if user}}
-        <li class="nav-item">
+        <li class="nav-item ">
           <a class="nav-link" href="#">Orders</a>
         </li>
         {{/if}}
       </ul>
+      <ul class="ml-auto pr-4">
+      <form class="form-inline my-lg-0">
+        <input class="form-control mr-sm-2" style="width: 25rem;" type="search" placeholder="search....."
+          aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+      </ul>
+
       <ul class="ml-auto pr-3">
 
         <div class="dropdown ">
@@ -41,9 +51,10 @@
 
           </div>
         </div>
+      </ul>
     </div>
 
-    </ul>
+
 
     </div>
   </nav>

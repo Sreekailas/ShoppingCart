@@ -1,0 +1,76 @@
+<section>
+    <div class="container mt-5">
+        <form action="" id="checkout-form">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Enter Delevery Details</h2>
+                    <div>
+                        <label for="">Address</label>
+
+                        <input class="form-control" type="text" id="address" name="address">
+                        <label for="">Pincode </label>
+
+                        <input class="form-control" type="text" id="pincode" name="pincode">
+
+                        <label for="">Mobile </label>
+                        <input class="form-control" type="text" id="mobile" name="mobile">
+                        <input type="text" name="userId" id="" value="{{user._id}}" hidden>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="container mt-5 ml-5 checkout">
+                        <h4>Total Amount : Rs.{{total}}</h4>
+                        <hr>
+                        <div class="payment">
+                            <p>Payment method</p>
+                            <label class="radio-inline">
+                                <input type="radio" name="payment-method" value="COD">COD
+                            </label>
+                            <label class="radio-inline mt-2">
+                                <input type="radio" name="payment-method" value="ONLINE">Online Payment
+                            </label>
+                            <button class="btn btn-primary float-right" type="submit">checkout</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+<script>
+    $("#checkout-form").submit((e)=>{
+        e.preventDefault()
+        $.ajax({
+            url:'/place-order',
+            method:'post',
+            data:$('#checkout-form').serialize(),
+            success:(Response)=>{
+                alert(response)
+                if(response.status){
+                    location.href='/order-success'
+                }
+            }
+        })
+    })
+</script>
+<style>
+    input[type=radio]{
+        width: 20px;
+        height: 20px;
+    }
+    .label.radio-inline{
+        display: flex;
+        align-items: center;
+
+    }
+    .checkout{
+        border: 1px solid;
+        border-radius: 3px;
+        padding: 30px;
+
+    }
+    .payment{
+        padding-bottom: 16px;
+    }
+</style>
